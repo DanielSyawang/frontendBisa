@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materi | BISA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .sidebar h1 {
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            padding: 20px;
+            margin-top: 20px;
+            display: block;
+        }
+        .sidebar a:hover {
+            background-color: #0056b3;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .sidebar .footer {
+            text-align: center;
+            font-size: 12px;
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            overflow: auto;
+        }
+        .material-content {
+            margin-top: 20px;
+        }
+        .material-content p {
+            font-size: 14px;
+            color: #666;
+        }
+        .audio-player {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .audio-player button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .progress-bar {
+            height: 10px;
+            background-color: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            width: 100%;
+            margin-left: 10px;
+            position: relative;
+        }
+        .progress-bar div {
+            height: 100%;
+            background-color: #007bff;
+            width: 0%; /* Initialize to 0% */
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .answer-input {
+            margin-top: 20px;
+        }
+        .answer-input label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .answer-input textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: none;
+        }
+        .back-button {
+            display: block;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div>
+            <h1>BISA</h1>
+                <a href="./dashboard.html" onclick="showClasses()">Dashboard</a>
+                <a href="./class.html" onclick="showClasses()">Classes</a>
+                <a href="./inbox.html">Inbox</a>
+                <a href="./account.html">Account</a>
+                <a href="./settings.html">Settings</a>
+        </div>
+        <div class="footer">2024 BISA|Braille In Smart device for Academy</div>
+    </div>
+    <div class="main-content">
+        <h2>Material Detail</h2>
+        <div class="material-content">
+            <p id="material-description">Loading...</p>
+        </div>
+        <div class="audio-player">
+            <button id="play-button" onclick="playAudio()">Play Audio</button>
+            <div class="progress-bar">
+                <div id="progress-bar-inner"></div>
+            </div>
+            <span id="audio-duration">0:00</span>
+        </div>
+        <div class="answer-input">
+            <label for="answer">Jawab:</label>
+            <textarea id="answer" placeholder="Tulis jawaban Anda di sini..." autofocus></textarea>
+        </div>
+        <a href="#" class="back-button" onclick="showMaterialsBack()">Kembali ke Materi</a>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetchMaterialDetail();
+
+            function fetchMaterialDetail() {
+                // Simulated fetch from a database or API
+                const materialId = 1; // Example material ID
+                const apiUrl = `https://api.example.com/materials/${materialId}`;
+
+                fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('material-description').textContent = data.description;
+                        document.getElementById('audio-duration').textContent = formatTime(data.audioDuration);
+                        // Load the audio file URL
+                        audio.src = data.audioUrl;
+                    })
+                    .catch(error => console.error('Error fetching material details:', error));
+            }
+
+            function formatTime(seconds) {
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = seconds % 60;
+                return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+            }
+
+            const audio = new Audio();
+            audio.addEventListener('timeupdate', updateProgressBar);
+
+            function playAudio() {
+                if (audio.paused) {
+                    audio.play();
+                    document.getElementById('play-button').textContent = 'Pause Audio';
+                } else {
+                    audio.pause();
+                    document.getElementById('play-button').textContent = 'Play Audio';
+                }
+            }
+
+            function updateProgressBar() {
+                const progressBar = document.getElementById('progress-bar-inner');
+                const percentage = (audio.currentTime / audio.duration) * 100;
+                progressBar.style.width = `${percentage}%`;
+            }
+
+            function showClasses() {
+                // Implementasi untuk kembali ke daftar kelas
+            }
+
+            function showMaterialsBack() {
+                const materialList = document.getElementById('material-list');
+                const classList = document.getElementById('class-list');
+
+                document.querySelector('.main-content h2').textContent = 'Materials';
+                materialList.classList.remove('active');
+                classList.classList.add('active');
+            }
+
+            const answerTextarea = document.getElementById('answer');
+            let isAudioPlayed = false;
+            let isChanged = false;
+
+            answerTextarea.addEventListener('input', function() {
+                isAudioPlayed = false;
+                isChanged = true;
+            });
+
+            answerTextarea.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter' && !isAudioPlayed) {
+                    event.preventDefault();
+                    const textToSpeak = answerTextarea.value;
+                    speakText(textToSpeak);
+                    isAudioPlayed = true;
+                    isChanged = false;
+                } else if (event.key === 'Enter' && isAudioPlayed && isChanged) {
+                    event.preventDefault();
+                    const textToSpeak = answerTextarea.value;
+                    speakText(textToSpeak);
+                    isChanged = false;
+                } else if (event.key === 'Enter' && isAudioPlayed && !isChanged) {
+                    event.preventDefault();
+                    submitAnswer();
+                }
+            });
+
+            function speakText(text) {
+                const synth = window.speechSynthesis;
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'id-ID'; // Set the language to Indonesian
+                utterance.onend = function() {
+                    alert('Jawaban telah diucapkan. Tekan Enter lagi untuk mengirim jawaban.');
+                    answerTextarea.focus();
+                };
+                synth.speak(utterance);
+            }
+
+            function submitAnswer() {
+                const answer = answerTextarea.value;
+                // Implementasi pengiriman jawaban ke server
+                console.log('Jawaban dikirim:', answer);
+                // Contoh: Kirim jawaban ke server
+                const apiUrl = 'https://api.example.com/submit-answer';
+                fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ answer })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Jawaban berhasil dikirim:', data);
+                    answerTextarea.value = ''; // Kosongkan textarea setelah submit
+                })
+                .catch(error => console.error('Error submitting answer:', error));
+            }
+        });
+    </script>
+</body>
+</html>

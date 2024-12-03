@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inbox | BISA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .sidebar h1 {
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            padding: 20px;
+            margin-top: 20px;
+            display: block;
+        }
+        .sidebar a:hover {
+            background-color: #0056b3;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .sidebar .footer {
+            text-align: center;
+            font-size: 12px;
+        }
+        .main-content {
+            display: flex;
+            flex: 1;
+            background-color: #f8f9fa;
+        }
+        .inbox {
+            width: 300px;
+            background-color: #e9ecef;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+        .inbox ul {
+            list-style: none;
+            padding: 0;
+        }
+        .inbox ul li {
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .inbox ul li a {
+            text-decoration: none;
+            color: black;
+            font-size: 18px;
+        }
+        .inbox ul li a.active {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .inbox ul li .badge {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 50%;
+        }
+        .details {
+            flex: 1;
+            padding: 20px;
+        }
+        .details h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .details .student-status {
+            margin: 20px 0;
+        }
+        .details .student-status div {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        .details .student-status .completed {
+            background-color: #28a745;
+            color: white;
+        }
+        .details .student-status .missed {
+            background-color: #ffc107;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div>
+            <h1>BISA</h1>
+                <a href="./dashboard.html">Dashboard</a>
+                <a href="./class.html">Classes</a>
+                <a href="./inbox.html" >Inbox</a>
+                <a href="./account.html">Account</a>
+                <a href="./settings.html">Settings</a>
+        </div>
+        <div class="footer">2024 BISA|Braille In Smart device for Academy</div>
+    </div>
+    <div class="main-content">
+        <div class="inbox">
+            <h2>Inbox</h2>
+            <ul>
+                <!-- Daftar inbox akan diisi oleh JavaScript -->
+            </ul>
+        </div>
+        <div class="details">
+            <h2>Physics Class</h2>
+            <div class="student-status">
+                <!-- Detail kelas akan diisi oleh JavaScript -->
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mengambil data dari database
+            fetch('https://raw.githubusercontent.com/Dokito555/go-blindfold/main/data.json')
+                .then(response => response.json())
+                .then(data => {
+                    // Memperbarui daftar inbox
+                    const inboxList = document.querySelector('.inbox ul');
+                    inboxList.innerHTML = ''; // Kosongkan daftar inbox terlebih dahulu
+
+                    data.classes.forEach(classData => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `<a href="#">${classData.name}</a><span class="badge">${classData.messages}</span>`;
+                        li.querySelector('a').addEventListener('click', (e) => {
+                            e.preventDefault();
+                            updateClassDetails(classData); // Memperbarui detail kelas saat link diklik
+                        });
+                        inboxList.appendChild(li);
+                    });
+
+                    // Memperbarui detail kelas pertama kali saat halaman dimuat
+                    if (data.classes.length > 0) {
+                        updateClassDetails(data.classes[0]);
+                    }
+                })
+                .catch(error => console.error('Error fetching data:', error));
+
+            // Fungsi untuk memperbarui detail kelas
+            function updateClassDetails(classData) {
+                const detailsSection = document.querySelector('.details .student-status');
+                detailsSection.innerHTML = ''; // Kosongkan detail terlebih dahulu
+
+                classData.students.forEach(student => {
+                    const div = document.createElement('div');
+                    div.className = student.status.toLowerCase();
+                    div.textContent = `${student.name} - ${student.status}`;
+                    detailsSection.appendChild(div);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

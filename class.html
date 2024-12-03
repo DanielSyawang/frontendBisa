@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelas | BISA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .sidebar h1 {
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            padding: 20px;
+            margin-top: 20px;
+            display: block;
+        }
+        .sidebar a:hover {
+            background-color: #0056b3;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .sidebar .footer {
+            text-align: center;
+            font-size: 12px;
+        }
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .header input {
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        .header button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .class-list {
+            margin-top: 20px;
+            flex-grow: 1;
+        }
+        .class-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            flex-wrap: wrap;
+            cursor: pointer;
+        }
+        .class-item img {
+            width: 50px;
+            height: 50px;
+            margin-right: 20px;
+        }
+        .class-info {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .class-info div {
+            margin-right: 20px;
+        }
+        .class-actions {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .class-actions button {
+            margin-left: 10px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .enrolled {
+            background-color: #007bff;
+            color: white;
+        }
+        .materials {
+            background-color: #28a745;
+            color: white;
+        }
+        .pagination {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .pagination button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+        .pagination button.disabled {
+            background-color: #ddd;
+            cursor: not-allowed;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+            }
+            .main-content {
+                padding: 10px;
+            }
+            .pagination {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div>
+            <h1>BISA</h1>
+            <a href="./dashboard.html">Dashboard</a>
+            <a href="./class.html">Classes</a>
+            <a href="./inbox.html">Inbox</a>
+            <a href="./account.html">Account</a>
+            <a href="./settings.html">Settings</a>
+        </div>
+        <div>
+            <p class="footer">2024 BISA|Braille In Smart device for Academy</p>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <input type="text" placeholder="Search Class">
+            <button onclick="navigateToPage()">Upload materi</button>
+        </div>
+        <div class="class-list" id="class-list">
+            <!-- Classes will be populated here -->
+        </div>
+        <div class="pagination" id="pagination">
+            <button id="prev" class="disabled">Previous</button>
+            <span id="page-info">Page 1/1</span>
+            <button id="next" class="disabled">Next</button>
+        </div>
+    </div>
+
+    <script>
+        const classes = [
+            { id: 1, name: 'Physics Class', enrolled: 12, materials: 10, image: 'physics.jpg', description: 'This is a Physics class.', materialsList: ['Material 1', 'Material 2'] },
+            { id: 2, name: 'Literature Class', enrolled: 12, materials: 10, image: 'literature.jpg', description: 'This is a Literature class.', materialsList: ['Material 1', 'Material 2'] },
+            { id: 3, name: 'Math Class', enrolled: 12, materials: 10, image: 'math.jpg', description: 'This is a Math class.', materialsList: ['Material 1', 'Material 2'] },
+            { id: 4, name: 'History Class', enrolled: 12, materials: 10, image: 'history.jpg', description: 'This is a History class.', materialsList: ['Material 1', 'Material 2'] },
+            { id: 5, name: 'Bahasa Indonesia Class', enrolled: 12, materials: 10, image: 'bahasa.jpg', description: 'This is a Bahasa Indonesia class.', materialsList: ['Material 1', 'Material 2'] },
+            { id: 6, name: 'English Class', enrolled: 12, materials: 10, image: 'english.jpg', description: 'This is an English class.', materialsList: ['Material 1', 'Material 2'] }
+        ];
+        function navigateToPage() { 
+            window.location.href = 'upload.html'; 
+        }
+        function renderClasses() {
+            const classList = document.getElementById('class-list');
+            classList.innerHTML = '';
+            classes.forEach(c => {
+                const classItem = document.createElement('div');
+                classItem.classList.add('class-item');
+                classItem.setAttribute('data-id', c.id);
+
+                classItem.innerHTML = `
+                    <div class="class-info">
+                        <img src="${c.image}" alt="${c.name}">
+                        <div>${c.name}</div>
+                    </div>
+                    <div class="class-actions">
+                        <button class="enrolled">${c.enrolled} Enrolled</button>
+                        <button class="materials">${c.materials} Materials</button>
+                    </div>
+                `;
+
+                classList.appendChild(classItem);
+
+                classItem.addEventListener('click', function() {
+                    const classId = c.id;
+                    window.location.href = `class_detail-guru.html?classId=${classId}`;
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderClasses();
+        });
+    </script>
+</body>
+</html>

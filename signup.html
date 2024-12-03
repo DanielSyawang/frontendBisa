@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar | BISA</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            display: flex;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 1450px;
+            height: 700px;
+        }
+
+        .singup-form {
+            width: 50%;
+            padding: 20px;
+
+        }
+        .singup-form2 {
+            width: 80%;
+            margin-top:  50px;
+
+        }
+        .singup-form3{
+            width: 90%;
+            margin-top:  100px;
+
+        }
+
+        .brand-container {
+            width: 50%;
+            background-color: #007bff;
+            color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .login {
+            text-align: left;
+            margin-top: 20px;
+            justify-content: left;
+            align-items: left;
+            margin-top:  50px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 100px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="singup-form">
+            <h1>Sign Up</h1>  
+            <label for="text">Create account</label>
+            <div class="singup-form2">
+                <label for="username">Username</label>
+                <input type="text" id="text" placeholder="Enter your username">
+                <label for="email">Email</label>
+                <input type="text" id="email" placeholder="Enter your email">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password">
+            </div>
+            <div class="singup-form3">
+            <button type="submit">Login</button>
+            </div>
+            <div class="login">
+                <p>Already have an account?<a href="./login.html">Login</a></p>
+            </div>
+            <div class="footer">  
+                <p>&copy; 2024 BISA|Braille In Smart device for Academy</p>
+            </div>
+        </div>
+        <div class="brand-container">
+            <h2>BISA|Braille In Smart device for Academy</h2>
+        </div>
+        
+    </div>
+    <script>
+        document.querySelector('button').addEventListener('click', function() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            if (email && password) {
+                alert('Login successful!');
+                window.location.href = "role.html";
+            } else {
+                alert('Tolong isi form dengan benar');
+            }
+        });
+    </script>
+</body>
+</html>

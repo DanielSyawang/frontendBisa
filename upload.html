@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Materi | BISA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            height: 1000px;
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .sidebar h1 {
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            padding: 20px;
+            margin-top: 20px;
+            display: block;
+        }
+        .sidebar a:hover {
+            background-color: #0056b3;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .sidebar .footer {
+            text-align: center;
+            font-size: 12px;
+        }
+        .main {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .upload-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .upload-container h2 {
+            margin-top: 0;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group select,
+        .form-group input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div>
+            <h1 class="logo">BISA</h1>
+            <a href="./dashboard.html">Dashboard</a>
+            <a href="./class.html">Classes</a>
+            <a href="./inbox.html">Inbox</a>
+            <a href="./account.html">Account</a>
+            <a href="./setting.html">Settings</a>
+        </div>
+        <div class="footer">2024 BISA | Braille In Smart device for Academy</div>
+    </div>
+    <div class="main">
+        <div class="upload-container">
+            <h2>Upload Materi</h2>
+            <div class="form-group">
+                <label for="subject">Mata Pelajaran</label>
+                <select id="subject">
+                    <option value="Matematika">Matematika</option>
+                    <option value="Fisika">Fisika</option>
+                    <option value="Kimia">Kimia</option>
+                    <option value="Biologi">Biologi</option>
+                    <!-- Tambahkan opsi mata pelajaran lainnya sesuai kebutuhan -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="lessonNumber">Materi ke</label>
+                <input type="number" id="lessonNumber" placeholder="Masukkan nomor materi">
+            </div>
+            <div class="form-group">
+                <label for="title">Judul</label>
+                <input type="text" id="title" placeholder="Masukkan judul materi">
+            </div>
+            <div class="form-group">
+                <label for="audio">File Audio</label>
+                <input type="file" id="audio" accept="audio/*">
+            </div>
+            <div class="form-group">
+                <button type="button" onclick="uploadMaterial()">Upload</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        function uploadMaterial() {
+            const subject = document.getElementById('subject').value;
+            const lessonNumber = document.getElementById('lessonNumber').value;
+            const title = document.getElementById('title').value;
+            const audioFile = document.getElementById('audio').files[0];
+
+            if (!subject || !lessonNumber || !title || !audioFile) {
+                alert('Mohon lengkapi semua field sebelum mengunggah.');
+                return;
+            }
+
+            // Contoh pengiriman data ke server menggunakan FormData
+            const formData = new FormData();
+            formData.append('subject', subject);
+            formData.append('lessonNumber', lessonNumber);
+            formData.append('title', title);
+            formData.append('audio', audioFile);
+
+            fetch('YOUR_SERVER_ENDPOINT', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Materi berhasil diunggah!');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan saat mengunggah materi.');
+            });
+        }
+    </script>
+</body>
+</html>

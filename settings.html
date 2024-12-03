@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | BISA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .sidebar h1 {
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 10px 0;
+            display: block;
+            border-radius: 5px;
+        }
+        .sidebar a:hover {
+            background-color: #0056b3;
+        }
+        .sidebar .footer {
+            text-align: center;
+            font-size: 12px;
+        }
+        .main {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .settings-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .settings-container h2 {
+            margin-top: 0;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="password"],
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div>
+            <h1 class="logo">BISA</h1>
+            <a href="./dashboard.html">Dashboard</a>
+            <a href="./class.html">Classes</a>
+            <a href="./inbox.html">Inbox</a>
+            <a href="./account.html">Account</a>
+            <a href="./settings.html">Settings</a>
+        </div>
+        <div class="footer">2024 BISA | Braille In Smart device for Academy</div>
+    </div>
+    <div class="main">
+        <div class="settings-container">
+            <h2>Settings</h2>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter your username">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password">
+            </div>
+            <div class="form-group">
+                <label for="language">Language</label>
+                <select id="language">
+                    <option value="en">English</option>
+                    <option value="id">Bahasa Indonesia</option>
+                    <!-- Tambahkan opsi bahasa lainnya sesuai kebutuhan -->
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="button" onclick="saveSettings()">Save Settings</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        function saveSettings() {
+            // Ambil nilai input
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const language = document.getElementById('language').value;
+
+            // Lakukan sesuatu dengan data, misalnya simpan ke database atau tampilkan pesan
+            console.log('Settings saved:', { username, email, password, language });
+
+            // Tampilkan pesan sukses
+            alert('Settings saved successfully!');
+        }
+
+        // Fetch data from the database to prefill settings (example)
+        fetch('https://raw.githubusercontent.com/Dokito555/go-blindfold/main/data.json')
+            .then(response => response.json())
+            .then(data => {
+                // Prefill settings with example data
+                document.getElementById('username').value = data.settings.username || '';
+                document.getElementById('email').value = data.settings.email || '';
+                document.getElementById('language').value = data.settings.language || 'en';
+            })
+            .catch(error => console.error('Error fetching settings:', error));
+    </script>
+</body>
+</html>

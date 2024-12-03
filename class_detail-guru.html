@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Kelas - BISA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .sidebar h1 {
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            padding: 20px;
+            margin-top: 20px;
+            display: block;
+        }
+        .sidebar a:hover {
+            background-color: #0056b3;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .sidebar .footer {
+            text-align: center;
+            font-size: 12px;
+        }
+        .main-content {
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        .class-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .class-header h1 {
+            font-size: 28px;
+        }
+        .class-description {
+            margin-top: 20px;
+        }
+        .materials {
+            margin-top: 20px;
+        }
+        .materials-list {
+            display: flex;
+            flex-direction: column;
+        }
+        .material {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .material h3 {
+            margin: 0;
+        }
+        .material p {
+            margin: 0 20px;
+            flex-grow: 1;
+        }
+        .material button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .search-bar {
+            margin-top: 20px;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div>
+        <h1>BISA</h1>
+        <a href="./dashboard.html">Dashboard</a>
+        <a href="./class.html">Classes</a>
+        <a href="./inbox.html">Inbox</a>
+        <a href="./account.html">Account</a>
+        <a href="./settings.html">Settings</a>
+    </div>
+        <div class="footer">
+            <p>2024 BISA|Braille In Smart device for Academy</p>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="class-header">
+            <h1 id="class-name"></h1>
+        </div>
+        <div class="class-description">
+            <p id="class-description"></p>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search Class">
+        </div>
+        <div class="materials">
+            <h2>Materials</h2>
+            <div class="materials-list" id="materials-list">
+                <!-- Materials will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const classes = [
+            { id: 1, name: 'Physics Class', enrolled: 12, materials: 10, image: 'physics.jpg', description: 'This is a Physics class.', materialsList: [{title: 'Material 1', summary: 'Brief summary of material 1'}, {title: 'Material 2', summary: 'Brief summary of material 2'}] },
+            { id: 2, name: 'Literature Class', enrolled: 12, materials: 10, image: 'literature.jpg', description: 'This is a Literature class.', materialsList: [{title: 'Material 1', summary: 'Brief summary of material 1'}, {title: 'Material 2', summary: 'Brief summary of material 2'}] },
+            { id: 3, name: 'Math Class', enrolled: 12, materials: 10, image: 'math.jpg', description: 'This is a Math class.', materialsList: [{title: 'Material 1', summary: 'Brief summary of material 1'}, {title: 'Material 2', summary: 'Brief summary of material 2'}] },
+            { id: 4, name: 'History Class', enrolled: 12, materials: 10, image: 'history.jpg', description: 'This is a History class.', materialsList: [{title: 'Material 1', summary: 'Brief summary of material 1'}, {title: 'Material 2', summary: 'Brief summary of material 2'}] },
+            { id: 5, name: 'Bahasa Indonesia Class', enrolled: 12, materials: 10, image: 'bahasa.jpg', description: 'This is a Bahasa Indonesia class.', materialsList: [{title: 'Material 1', summary: 'Brief summary of material 1'}, {title: 'Material 2', summary: 'Brief summary of material 2'}] },
+            { id: 6, name: 'English Class', enrolled: 12, materials: 10, image: 'english.jpg', description: 'This is an English class.', materialsList: [{title: 'Material 1', summary: 'Brief summary of material 1'}, {title: 'Material 2', summary: 'Brief summary of material 2'}] }
+        ];
+
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        function showClassDetails(classId) {
+            const classDetails = classes.find(c => c.id === parseInt(classId));
+            if (classDetails) {
+                document.getElementById('class-name').innerText = classDetails.name;
+                document.getElementById('class-description').innerText = classDetails.description;
+                const materialsList = document.getElementById('materials-list');
+                materialsList.innerHTML = '';
+                classDetails.materialsList.forEach(material => {
+                    const materialItem = document.createElement('div');
+                    materialItem.classList.add('material');
+                    materialItem.innerHTML = `
+                        <h3>${material.title}</h3>
+                        <p>${material.summary}</p>
+                        <button onclick="goToMaterial('${material.title}')">Enter</button>
+                    `;
+                    materialsList.appendChild(materialItem);
+                });
+            }
+        }
+
+        function goToMaterial(materialTitle) {
+            window.location.href = `materi-detail-guru.html?materialTitle=${materialTitle}`;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const classId = getQueryParam('classId');
+            if (classId) {
+                showClassDetails(classId);
+            }
+        });
+    </script>
+</body>
+</html>

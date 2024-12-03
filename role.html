@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Role | BISA</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            display: flex;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 1450px;
+            height: 700px;
+        }
+        .left-container{
+            width: 50%;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        .radio-container {
+            display: flex;
+            align-items: center;
+            margin-right: 50px;
+           
+            }
+
+        input[type="radio"] {
+            display: none;
+            }
+
+        input[type="radio"] + label {
+            display: inline-block;
+            width: 100%;
+            padding: 10px 15px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            }
+
+        input[type="radio"]:checked + label {
+            background-color: #71abea; 
+            color: #fff;
+            }
+
+        input[type="radio"]:checked + label::before {
+            content: "";
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            margin-right: 5px;
+            background-color: #fff;
+            border-radius: 50%;
+            border: 2px solid #007bff; 
+            }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-top: 50px;
+            width: 100%;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        .right-container {
+            width: 50%;
+            background-color: #007bff;
+            color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .footer {
+            text-align: left;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-container">
+        <h1>Sign Up</h1>
+        <p>Create and account to enter</p>
+        <p>As a?</p>
+        <div class="radio-container">
+                <input type="radio" id="student" name="role" value="student" checked>
+                <label for="student">Student</label>
+       
+                <input type="radio" id="teacher" name="role" value="teacher">
+                <label for="teacher">Teacher</label>
+        </div>
+        <button id="lanjut" type="submit">Continue</button>
+        <div class="footer">
+            <p><a href="./signup.html">Back</a></p>
+        </div>
+    </div>
+  
+    <div class="right-container">
+        <h1>Welcome to BISA|Braille In Smart device for Academy</h1>
+        <p>Your journey to knowledge starts here.</p>
+    </div>
+</div>
+<script>
+    const continueButton = document.getElementById('lanjut'); 
+    const studentRadioButton = document.getElementById('student'); 
+
+    continueButton.addEventListener('click', () => {
+    if (studentRadioButton.checked) {
+        window.location.href = "succes.html"; 
+    } else {
+        window.location.href = "succes.html"; 
+    }
+    });
+</script>
+</body>
+</html>
