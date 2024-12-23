@@ -1,140 +1,91 @@
-// api.ts
-const BASE_URL = "http://localhost:9876";
+import axios from 'axios';
+import * as dotenv from 'dotenv';
 
-interface CreateClassRequest {
-  className: string;
-  classDescription: string;
-}
+// Load environment variables from .env file
+dotenv.config();
 
-interface UpdateClassRequest {
-  className: string;
-  classDescription: string;
-}
+// Get environment variables
+const BASE_URL = process.env.BASE_URL
+const API_KEY = process.env.ACCESS_TOKEN 
 
-interface EnrollRequest {
-  studentID: number;
-}
-
-interface RemoveRequest {
-  studentID: number;
-}
-
-// Create Class
-export const createClass = async (request: CreateClassRequest) => {
-  const response = await fetch(`${BASE_URL}/class`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer YOUR_ACCESS_TOKEN", // Replace with actual token
-    },
-    body: JSON.stringify(request),
-  });
-  
-  if (!response.ok) {
-    throw new Error("Failed to create class");
+// Create an axios instance with default configuration
+const apiClient = axios.create({
+  baseURL: BASE_URL,
+  headers: {
+    'Authorization': `Bearer ${API_KEY}`,
+    'Content-Type': 'application/json',
   }
-  
-  return response.json();
+});
+
+// Create a new class
+export const createClass = async (request: { className: string; classDescription: string }) => {
+  try {
+    const response = await apiClient.post('/class', request);
+    console.log('Class created:', response.data);
+  } catch (error) {
+    console.error('Error creating class:', error);
+  }
 };
 
-// Get Class By ID
+// Get class by ID
 export const getClassById = async (classID: number) => {
-  const response = await fetch(`${BASE_URL}/class/${classID}`, {
-    method: "GET",
-    headers: {
-      "Authorization": "Bearer YOUR_ACCESS_TOKEN", // Replace with actual token
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error("Class not found");
+  try {
+    const response = await apiClient.get(`/class/${classID}`);
+    console.log('Class details:', response.data);
+  } catch (error) {
+    console.error(`Error fetching class with ID ${classID}:`, error);
   }
-
-  return response.json();
 };
 
-// Get Classes User Enrolled
+// Get classes user is enrolled in
 export const getClassesUserEnrolled = async () => {
-  const response = await fetch(`${BASE_URL}/class/enrolled`, {
-    method: "GET",
-    headers: {
-      "Authorization": "Bearer YOUR_ACCESS_TOKEN", // Replace with actual token
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch classes");
+  try {
+    const response = await apiClient.get('/class/enrolled');
+    console.log('Enrolled classes:', response.data);
+  } catch (error) {
+    console.error('Error fetching enrolled classes:', error);
   }
-
-  return response.json();
 };
 
-// Update Class
-export const updateClass = async (classID: number, request: UpdateClassRequest) => {
-  const response = await fetch(`${BASE_URL}/class/${classID}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer YOUR_ACCESS_TOKEN", // Replace with actual token
-    },
-    body: JSON.stringify(request),
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to update class");
+// Update class by ID
+export const updateClass = async (classID: number, request: { className: string; classDescription: string }) => {
+  try {
+    const response = await apiClient.put(`/class/${classID}`, request);
+    console.log('Class updated:', response.data);
+  } catch (error) {
+    console.error(`Error updating class with ID ${classID}:`, error);
   }
-
-  return response.json();
 };
 
-// Delete Class
+// Delete class by ID
 export const deleteClass = async (classID: number) => {
-  const response = await fetch(`${BASE_URL}/class/${classID}`, {
-    method: "DELETE",
-    headers: {
-      "Authorization": "Bearer YOUR_ACCESS_TOKEN", // Replace with actual token
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to delete class");
+  try {
+    const response = await apiClient.delete(`/class/${classID}`);
+    console.log('Class deleted:', response.data);
+  } catch (error) {
+    console.error(`Error deleting class with ID ${classID}:`, error);
   }
-
-  return response.json();
 };
 
-// Enroll Student to Class
-export const enrollStudent = async (classID: number, request: EnrollRequest) => {
-  const response = await fetch(`${BASE_URL}/class/${classID}/enroll`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer YOUR_ACCESS_TOKEN", // Replace with actual token
-    },
-    body: JSON.stringify(request),
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to enroll student");
+// Enroll student in class
+export const enrollStudent = async (classID: number, request: { studentID: number }) => {
+  try {
+    const response = await apiClient.post(`/class/${classID}/enroll`, request);
+    console.log('Student enrolled:', response.data);
+  } catch (error) {
+    console.error(`Error enrolling student in class ${classID}:`, error);
   }
-
-  return response.json();
 };
 
-// Remove Student from Class
-export const removeStudent = async (classID: number, request: RemoveRequest) => {
-  const response = await fetch(`${BASE_URL}/class/${classID}/remove`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer YOUR_ACCESS_TOKEN", // Replace with actual token
-    },
-    body: JSON.stringify(request),
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to remove student");
-  }
-
-  return response.json();
-};
+export const removeStudent = async (classID: number, request: { studentID: number }) => {
+    try {
+      const response = await apiClient.request({
+        method: 'DELETE',
+        url: `/class/${classID}/remove`,
+        data: request,  
+      });
+      console.log('Student removed:', response.data);
+    } catch (error) {
+      console.error(`Error removing student from class ${classID}:`, error);
+    }
+}
