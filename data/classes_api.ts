@@ -1,14 +1,11 @@
 import axios from 'axios';
 import * as dotenv from 'dotenv';
 
-// Load environment variables from .env file
 dotenv.config();
 
-// Get environment variables
 const BASE_URL = process.env.BASE_URL
 const API_KEY = process.env.ACCESS_TOKEN 
 
-// Create an axios instance with default configuration
 const apiClient = axios.create({
   baseURL: BASE_URL,
   headers: {
@@ -17,7 +14,6 @@ const apiClient = axios.create({
   }
 });
 
-// Create a new class
 export const createClass = async (request: { className: string; classDescription: string }) => {
   try {
     const response = await apiClient.post('/class', request);
@@ -27,7 +23,6 @@ export const createClass = async (request: { className: string; classDescription
   }
 };
 
-// Get class by ID
 export const getClassById = async (classID: number) => {
   try {
     const response = await apiClient.get(`/class/${classID}`);
@@ -37,7 +32,6 @@ export const getClassById = async (classID: number) => {
   }
 };
 
-// Get classes user is enrolled in
 export const getClassesUserEnrolled = async () => {
   try {
     const response = await apiClient.get('/class/enrolled');
@@ -47,7 +41,6 @@ export const getClassesUserEnrolled = async () => {
   }
 };
 
-// Update class by ID
 export const updateClass = async (classID: number, request: { className: string; classDescription: string }) => {
   try {
     const response = await apiClient.put(`/class/${classID}`, request);
@@ -57,7 +50,6 @@ export const updateClass = async (classID: number, request: { className: string;
   }
 };
 
-// Delete class by ID
 export const deleteClass = async (classID: number) => {
   try {
     const response = await apiClient.delete(`/class/${classID}`);
@@ -67,7 +59,6 @@ export const deleteClass = async (classID: number) => {
   }
 };
 
-// Enroll student in class
 export const enrollStudent = async (classID: number, request: { studentID: number }) => {
   try {
     const response = await apiClient.post(`/class/${classID}/enroll`, request);
