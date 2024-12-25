@@ -10,7 +10,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "dotenv": "^16.4.7"
+    "@types/form-data": "^2.2.1",
+    "dotenv": "^16.4.7",
+    "form-data": "^4.0.1"
   },
   "devDependencies": {
     "@types/axios": "^0.9.36",

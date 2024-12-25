@@ -139,7 +139,7 @@ async function sleep(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function testApiFlow() {
+async function runApiTests() {
   try {
     console.log('Starting API test flow...\n');
 
@@ -215,4 +215,4 @@ async function testApiFlow() {
 
 console.log('API Test Runner');
 console.log('==============');
-testApiFlow();
+runApiTests();
