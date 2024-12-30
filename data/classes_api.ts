@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios = require('axios');
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -80,3 +80,46 @@ export const removeStudent = async (classID: number, request: { studentID: numbe
       console.error(`Error removing student from class ${classID}:`, error);
     }
 }
+
+const runApiTests = async () => {
+  try {
+    // Step 1: Create a new class
+    const newClass = { className: 'Physics 101', classDescription: 'Basic physics concepts' };
+    console.log('Creating class...');
+    await createClass(newClass);
+
+    // Step 2: Fetch the details of the newly created class (replace with valid classID)
+    const classID = 1; // Update with the actual ID of the created class
+    console.log(`Fetching details for class ID: ${classID}`);
+    await getClassById(classID);
+
+    // Step 3: Fetch all classes the user is enrolled in
+    console.log('Fetching enrolled classes...');
+    await getClassesUserEnrolled();
+
+    // Step 4: Update the class details
+    const updatedClass = { className: 'Advanced Physics', classDescription: 'In-depth physics concepts' };
+    console.log(`Updating class ID: ${classID}`);
+    await updateClass(classID, updatedClass);
+
+    // Step 5: Enroll a student in the class (replace with valid studentID)
+    const studentID = 123; // Update with actual student ID
+    console.log(`Enrolling student ID: ${studentID} in class ID: ${classID}`);
+    await enrollStudent(classID, { studentID });
+
+    // Step 6: Remove the student from the class
+    console.log(`Removing student ID: ${studentID} from class ID: ${classID}`);
+    await removeStudent(classID, { studentID });
+
+    // Step 7: Delete the class
+    console.log(`Deleting class ID: ${classID}`);
+    await deleteClass(classID);
+
+    console.log('All tests completed successfully!');
+  } catch (error) {
+    console.error('Error during API testing:', error);
+  }
+};
+
+// Run the tests
+runApiTests();
